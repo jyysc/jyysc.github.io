@@ -32,7 +32,51 @@
 #绪论
 
 &#160; &#160; &#160; &#160;寻找数据中模式的问题是一个基本的问题，有着很长的很成功的历史。例如，16世纪Tycho Brahe的大量的观测使得Johannes Kepler发现行星运行的经验性规律，这反过来给经典力学的发展提供了跳板。类似地，原子光谱的规律的发现在20世纪初期对于量子力学的发展和证明有着重要的作用。模式识别领域关注的是利用计算机算法自动发现数据中的规律，以及使用这些规律采取将数据分类等行动。<br>
-&#160; &#160; &#160; &#160;使用机器学习的方法可以得到好得多的结果。这个方法中，一个由<img src="http://latex.codecogs.com/svg.latex?  N">个数字<img src="http://latex.codecogs.com/svg.latex? \{x_1,...,x_N\}">组成的大的集合被叫做训练集（training set），用来调节模型的参数。训练集中数字的类别实现已知，通常是被独立考察、人工标注的。我们可以使用目标向量（target vector）<img src="http://latex.codecogs.com/svg.latex?  t">来表示数字的类别，它代表对应数字的标签。使用向量来表示类别的合适的技术将在后面讨论。注意对于每个数字图像<img src="http://latex.codecogs.com/svg.latex? \ x">只有一个目标向量<img src="http://latex.codecogs.com/svg.latex? t">。
+&#160; &#160; &#160; &#160;使用机器学习的方法可以得到好得多的结果。这个方法中，一个由<img src="http://latex.codecogs.com/svg.latex?  N">个数字<img src="http://latex.codecogs.com/svg.latex? \{x_1,...,x_N\}">组成的大的集合被叫做训练集（training set），用来调节模型的参数。训练集中数字的类别实现已知，通常是被独立考察、人工标注的。我们可以使用目标向量（target vector）<img src="http://latex.codecogs.com/svg.latex?  t">来表示数字的类别，它代表对应数字的标签。使用向量来表示类别的合适的技术将在后面讨论。注意对于每个数字图像<img src="http://latex.codecogs.com/svg.latex? \ x">只有一个目标向量<img src="http://latex.codecogs.com/svg.latex? t">。<br>
+&#160; &#160; &#160; &#160;运用机器学习算法的结果可以被表示为一个函数<img src="http://latex.codecogs.com/svg.latex? y(x)">，它以一个新的数字的图像<img src="http://latex.codecogs.com/svg.latex? x">为输入，产生向量<img src="http://latex.codecogs.com/svg.latex? y">，与目标向量的形式相同。函数<img src="http://latex.codecogs.com/svg.latex? y(x)">的精确形式在训练（training）阶段被确定，这个阶段也被称为学习（learning）阶段，以训练数据为基础。一旦模型被训练出来，它就能确定新的数字的图像集合中图像的标签。这些新的数字的图像集合组成了测试集（test set）。正确分类与训练集不同的新样本的能力叫做泛化（generalization）。在实际应用中，输入向量的变化性是相当大的，以至于训练数据只所有可能的输入向量中相当小得一部分，所以泛化是模式识别的一个中心问题。<br>
+&#160; &#160; &#160; &#160;对于大部分实际应用，原始输入向量通常被预处理（pre-processed），变换到新的变量空间。人们期望在新的变量空间中模式识别问题可以更容易地被解决。例如，在数字识别的问题中，数字的图像通常被转化缩放，使得每个数字能够被包含到一个固定大小的盒子中。这极大地减少了每个数字类别的变化性，因为现在所有数字的位置和大小现在相同，这使得后续的区分不同类别的模式识别算法变得更加容易。这个预处理阶段有时被叫做特征抽取（feature extraction）。注意新的测试集必须使用与训练集相同的方法进行预处理。<br>
+&#160; &#160; &#160; &#160;训练数据的样本包含输入向量以及对应的目标向量的应用叫做有监督学习（supervised learning）问题。数字识别就是这个问题的一个例子，它的目标是给每个输入向量分配到有限数量离散标签中的一个，被称为分类（classification）问题。如果要求的输出由一个或者多个连续变量组成，那么这个任务被称为回归（regression）。回归问题的一个例子是化学药品制造过程中产量的预测。在这个问题中，输入由反应物、温度、压力组成。<br>
+&#160; &#160; &#160; &#160;在其他的模式识别问题中，训练数据由一组输入向量<img src="http://latex.codecogs.com/svg.latex? x">组成，没有任何对应的目标值。在这样的无监督学习（unsupervised learning）问题中，目标可能是发现数据中相似样本的分组，这被称为聚类（clustering），或者决定输入空间中数据的分布，这被称为密度估计（density estimation），或者把数据从高维空间投影到二维或者三维空间，为了数据可视化（visualization）。<br>
+&#160; &#160; &#160; &#160;最后，反馈学习（reinforcement learning）（Sutton and Barto, 1998）技术关注的问题是在给定的条件下，找到合适的动作，使得奖励达到最大值。这里，学习问题没有给定最优输出的用例。这些用例必须在一系列的实验和错误中被发现。这与有监督学习相反。通常，有一个状态和动作的序列，其中学习算法与环境交互。在许多情况下，当前动作不仅影响直接的奖励，也
+对所有后续时刻的奖励有影响。反馈学习的一个通用的特征是探索（exploration）和
+利用（exploitation）的折中。“探索”是指系统尝试新类型的动作，“利用”是指系统使用已知能产
+生较高奖励的动作。过分地集中于探索或者利用都会产生较差的结果。反馈学习继续是机器学习研究中得一个活跃的领域。然而，详细讨论反馈学习不在本书的范围内。
+##1.1 例子：多项式曲线拟合
+&#160; &#160; &#160; &#160;现在假设给定一个训练集。这个训练集由<img src="http://latex.codecogs.com/svg.latex? x">的<img src="http://latex.codecogs.com/svg.latex? N">次观测组成，写作<img src="http://latex.codecogs.com/svg.latex? x\equiv (x_1,...,x_N)^T"> ，伴随这对应的<img src="http://latex.codecogs.com/svg.latex? t">的观测值，记作<img src="http://latex.codecogs.com/svg.latex? t\equiv (t_1,...,t_N)^T"> 。输入数据集合<img src="http://latex.codecogs.com/svg.latex?  x">通过选择<img src="http://latex.codecogs.com/svg.latex?  x_n(n=1,...,N)">的值来生成。这些<img src="http://latex.codecogs.com/svg.latex? x_n">均匀分布在区间<img src="http://latex.codecogs.com/svg.latex?  [0,1]">，目标数据集<img src="http://latex.codecogs.com/svg.latex?  t">的获得方式是：首先计算函数<img src="http://latex.codecogs.com/svg.latex?  sin(2x)">的对应的值，然后给每个点增加一个小的符合高斯分布的随机噪声（高斯分布将在1.2.4节讨论），从而得到对应的<img src="http://latex.codecogs.com/svg.latex?   t_N">的值。通过使用这种方式产生数据，我们利用了许多真实数据集合的一个性质，即它们拥有一个内在的规律，这个规律是我们想要学习的，但是独自的观察被随机噪声干扰。这种噪声可能由一个本质上随机的过程产生，例如放射性衰变。但是更典型的情况是由于存在没有被观察到的具有变化性的噪声源。<br>
+&#160; &#160; &#160; &#160;我们的目标是利用这个训练集预测对于输入变量的新值<img src="http://latex.codecogs.com/svg.latex?  \hat{x}">的目标变量的值<img src="http://latex.codecogs.com/svg.latex?  \hat{b}">。正如我们将要看到的那样，这涉及到隐式地发现内在的函数<img src="http://latex.codecogs.com/svg.latex?   sin(2x)">。这本质上是一个困难的问题，因为我们不得不从有限的数据中生成。并且观察到得数据被噪声干扰，因此对于一个给定的<img src="http://latex.codecogs.com/svg.latex?  \hat{x}">，合适的<img src="http://latex.codecogs.com/svg.latex?  \hat{b}">值具有不确定性。概率论（在1.2节讨论）提供了一个框架，用来以精确的数学的形式描述这种不确定性。决策论（在1.5节讨论）让我们能够根据合适的标准，利用这种概率的表示，进行最优的预测。<br>
+&#160; &#160; &#160; &#160;但是现在，我们要用一种相当非正式的、相当简单的方式来进行曲线拟合。特别地，我们将使用下面形式的多项式函数来拟合数据：<br>
+<p style="text-align:center"><img src="http://latex.codecogs.com/svg.latex?  y(x,w)=w_0+w_1x+w_2x^2+...+w_Mx^M=\sum_{M-1}^Mw_jx^j">(1.1)</p>
+其中<img src="http://latex.codecogs.com/svg.latex?  M">是多项式的阶数（order），<img src="http://latex.codecogs.com/svg.latex?  x_j">表示<img src="http://latex.codecogs.com/svg.latex?  x">的<img src="http://latex.codecogs.com/svg.latex?  j">次幂。多项式系数<img src="http://latex.codecogs.com/svg.latex?  w_0,...,w_M">整体记作向量<img src="http://latex.codecogs.com/svg.latex?  w}">。注意，虽然多项式函数<img src="http://latex.codecogs.com/svg.latex?  y(x,w)">是<img src="http://latex.codecogs.com/svg.latex?  x">的一个非线性函数，它是系数<img src="http://latex.codecogs.com/svg.latex?  w">的一个线性函数。类似多项式函数的这种关于未知参数满足线性关系的函数有着重要的性质，被叫做线性模型，将在第3章和第4章充分讨论。<br>
+&#160; &#160; &#160; &#160;系数的值可以通过调整多项式函数拟合训练数据的方式确定。这可以通过最小化误差函数（error function）的方法实现。误差函数衡量了对于任意给定的w值，函数<img src="http://latex.codecogs.com/svg.latex?  y(x,w)">与训练集数据的差别。一个简单的应用广泛的误差函数是每个数据点<img src="http://latex.codecogs.com/svg.latex?  x_n">的预测值<img src="http://latex.codecogs.com/svg.latex?  y(x_n,w)">与目标值<img src="http://latex.codecogs.com/svg.latex? t_n">的平方和。所以我们最小化<br>
+<p style="text-align:center"><img src="http://latex.codecogs.com/svg.latex?  E(w)=\frac12\sum_{n=1}^N{\{y(x_n,w)-t_n\}}^2">(1.2)</p>
+其中，因为<img src="http://latex.codecogs.com/svg.latex?  \frac12">是为了后续运算方便而加入的。我们将在后续章节中讨论选择这个误差函数的原
+因。现在，我们只是简单地注意一下它是每个非负的量，并且当且仅当函数<img src="http://latex.codecogs.com/svg.latex?  y(x,w)">对所有的训练数据点均做出正确预测时，误差函数为零。<br>
+&#160; &#160; &#160; &#160;事实上，多项式函数精确地通过了每一个数据点，<img src="http://latex.codecogs.com/svg.latex?  E(w)=0">。然而，拟合的曲线剧烈震荡，就表达函数<img src="http://latex.codecogs.com/svg.latex?  \sin(2x)">而言表现很差。这种行为叫做过拟合（over-fitting）。正如我们之前提到的那样，目标是通过对新数据的预测实现良好的泛化性。我们可以定量考察模型的泛化性与<img src="http://latex.codecogs.com/svg.latex?  M">的关系。考察的方式为：考虑一个额外的测试集，这个测试集由100个数据点组成，这100个数据点的生成方式与训练集的生成方式完全相同，但是在目标值中包含的随机噪声的值不同。对于每个<img src="http://latex.codecogs.com/svg.latex?  M">的选择，我们之后可以用公式<img src="http://latex.codecogs.com/svg.latex?  （1.2）">计算训练集的<img src="http://latex.codecogs.com/svg.latex?  E(w)">，也可以计算测试集的<img src="http://latex.codecogs.com/svg.latex?  E(w)">。有时候使用根均方（RMS）误差更方便。这个误差由下式定义：<br>
+<p style="text-align:center"><img src="http://latex.codecogs.com/svg.latex?  E_{RMS}=\sqrt{2E(w^*)/N"}>(1.3)</p>
+其中，除以<img src="http://latex.codecogs.com/svg.latex?  N">让我们能够以相同的基础对比不同大小的数据集，平方根确保了<img src="http://latex.codecogs.com/svg.latex?  E_{RMS}">与目标变量<img src="http://latex.codecogs.com/svg.latex?  t">使用相同的规模和单位进行度量。<br>
+&#160; &#160; &#160; &#160;考察给定模型的行为随着数据集规模的变化情况也很有趣，
+对一个给定的模型复杂度，当数据集的规模增加时，过拟合问题变得不那么严重。另一种表
+述方式是，数据集规模越大，我们能够用来拟合数据的模型就越复杂（即越灵活）。一个粗略的启发是，数据点的数量不应该小于模型的可调节参数的数量的若干倍（比如5或10）。然而，正如我们将在第3章看到的那样，参数的数量对于模型复杂度的⼤部分合理的度量来说都不是必要的。<br>
+&#160; &#160; &#160; &#160;并且，令人无法满意的一点是，不得不根据可得到的训练集的规模限制参数的数量。似乎更加合理的是，根据待解决的问题的复杂性来选择模型的复杂性。我们将会看到，寻找模型参数的最小平方方法代表了最大似然（maximum likelihood）（将在1.2.5节讨论）的一种特殊情形，并且过拟合问题可以被理解为最大似然的一个通用属性。通过使用一种贝叶斯（Bayesian）方法，过拟合问题可以被避免。我们将会看到，从贝叶斯的观点来看，对于模型参数的数量超过
+数据点数量的情形，没有任何难解之处。实际上，一个贝叶斯模型中，参数的有效（effective）数量会⾃动根据数据集的规模调节。<br>
+&#160; &#160; &#160; &#160;但是现在，继续使用当前的方法还是很有用的。并且考虑在实际中我们可以如何应用有限规模的数据集也是很有意义的。在这种情况下，我们可能期望建立相对复杂和灵活的模型。经常用来控制过拟合现象的⼀种技术是正则化（regularization）。这种技术涉及到给误差函数（1.2）增加一个惩罚项，使得系数不会达到很大的值。这种惩罚项最简单的形式采用所有系数的平方和的形式。这推导出了误差函数的修改后的形式：<br>
+<p style="text-align:center"><img src="http://latex.codecogs.com/svg.latex?  \breve{E}=\frac12\sum_{n=1}^N{\{y(x_n,w)-t_n\}}^2+\frac{\lambda}{2}\left|\left|w\right|\right|^2"}>(1.4)</p>
+其中<img src="http://latex.codecogs.com/svg.latex?  \left|\left|w\right|\right|^2\equiv w^Tw=w_0^2+w_1^2+...+w_M^2"}>
+，系数<img src="http://latex.codecogs.com/svg.latex?  \lambda"}>控制了正则化项相对于平方和误差项的重要性。注意，通常系数<img src="http://latex.codecogs.com/svg.latex?  w_0"}>从正则化项中省略，因为包含<img src="http://latex.codecogs.com/svg.latex?  w_0"}>会使得结果依赖于目标变量原点的选择
+（Hastie et al., 2001）。<img src="http://latex.codecogs.com/svg.latex?  w_0"}>也可以被包含在正则化项中，但是必须有自己的正则化系数（我们将在5.5.1节详细讨论这个问题）。公式（1.4）中的误差函数也可以用解析的形式求出最小值。像这样的技术在统计学的文献中被叫做收缩（shrinkage）方法，因为这种方法减小了系数的值。二次正则项的⼀个特殊情况被称为脊回归（ridge regression）（Hoerl and Kennard, 1970）。在神经网络的情形中，这种方法被叫做权值衰减（weight decay）。
+##1.2 概率论
+&#160; &#160; &#160; &#160;我们可以用下面的形式表示概率论的两条基本规则：<br>
+<p style="text-align:center">sum rule:<img src="http://latex.codecogs.com/svg.latex?  p(X)=\sum_Yp(X,Y)">(1.10)</p>
+<p style="text-align:center">product rule:<img src="http://latex.codecogs.com/svg.latex?  p(X)=p(Y|X)p(X)">(1.11)</p>
+这里<img src="http://latex.codecogs.com/svg.latex?  p(Y|X)">是联合概率，可以表述为“<img src="http://latex.codecogs.com/svg.latex?  X">且<img src="http://latex.codecogs.com/svg.latex?  Y">的概率”。类似地，<img src="http://latex.codecogs.com/svg.latex?  p(Y|X)">是条件概率，可以表述为“给定<img src="http://latex.codecogs.com/svg.latex?  X">的条件下<img src="http://latex.codecogs.com/svg.latex?  Y">的概率”，<img src="http://latex.codecogs.com/svg.latex?  p(X)">是边缘概率，可以简单地表述为“<img src="http://latex.codecogs.com/svg.latex?  X">的概率”。这两个简单的规则组成了我们在全书中使⽤的全部概率推导的基础。<br>
+&#160; &#160; &#160; &#160;根据乘积规则，以及对称性<img src="http://latex.codecogs.com/svg.latex?  p(X,Y)=p(Y,X)">，我们立即得到了下面的两个条件概率之间的关系：<br>
+<p style="text-align:center"><img src="http://latex.codecogs.com/svg.latex?  p(Y|X)=\frac{p(X|Y)p(Y)}{p(X)}">(1.12)</p>
+这被称为`贝叶斯定理（Bayes' theorem）`，在模式识别和机器学习领域扮演者中心角色。使用加和规则，贝叶斯定理中的分母可以用出现在分子中的项表示：<br>
+<p style="text-align:center"><img src="http://latex.codecogs.com/svg.latex?  p(X)=\sum_Yp(X|Y)p(Y)">(1.12)</p>
+我们可以把贝叶斯定理的分母看做归一化常数，用来确保公式（1.12）左侧的条件概率对于所有的<img src="http://latex.codecogs.com/svg.latex?  Y">的取值之和为1。<br>
+&#160; &#160; &#160; &#160;我们把能够之前得到的最多的信息的概率<img src="http://latex.codecogs.com/svg.latex?  p(Y)">叫做先验概率（prior probability）,我们就能够使用贝叶斯定理来计算概率<img src="http://latex.codecogs.com/svg.latex?  p(Y|X)">。这个被称为后验概率（posterior probability），因为它是我们观察到<img src="http://latex.codecogs.com/svg.latex?  X">之后的概率。最后，如果两个变量的联合分布可以分解成两个边缘分布的乘积，即<img src="http://latex.codecogs.com/svg.latex?  p(X,Y)=p(X)p(Y)">，那么我们说<img src="http://latex.codecogs.com/svg.latex?  X">和<img src="http://latex.codecogs.com/svg.latex?  Y"> 相互独立（independent）。根据乘积规则，我们可以得到<img src="http://latex.codecogs.com/svg.latex?  p(Y|X)=p(X)">，因此对于给定<img src="http://latex.codecogs.com/svg.latex?  X">的条件下的<img src="http://latex.codecogs.com/svg.latex?  Y">的条件分布实际上独立于<img src="http://latex.codecogs.com/svg.latex?  X">的值。
+###1.2.1概率密度
+
 <!-- markdown end -->
 </div>
 <div class="entry" id="main">
@@ -46,7 +90,70 @@
 <h1 id="">绪论</h1>
 
 <p>&nbsp; &nbsp; &nbsp; &nbsp;寻找数据中模式的问题是一个基本的问题，有着很长的很成功的历史。例如，16世纪Tycho Brahe的大量的观测使得Johannes Kepler发现行星运行的经验性规律，这反过来给经典力学的发展提供了跳板。类似地，原子光谱的规律的发现在20世纪初期对于量子力学的发展和证明有着重要的作用。模式识别领域关注的是利用计算机算法自动发现数据中的规律，以及使用这些规律采取将数据分类等行动。<br>
-&nbsp; &nbsp; &nbsp; &nbsp;使用机器学习的方法可以得到好得多的结果。这个方法中，一个由<img src="http://latex.codecogs.com/svg.latex?  N">个数字<img src="http://latex.codecogs.com/svg.latex? \{x_1,...,x_N\}">组成的大的集合被叫做训练集（training set），用来调节模型的参数。训练集中数字的类别实现已知，通常是被独立考察、人工标注的。我们可以使用目标向量（target vector）<img src="http://latex.codecogs.com/svg.latex?  t">来表示数字的类别，它代表对应数字的标签。使用向量来表示类别的合适的技术将在后面讨论。注意对于每个数字图像<img src="http://latex.codecogs.com/svg.latex? \ x">只有一个目标向量<img src="http://latex.codecogs.com/svg.latex? t">。</p>
+&nbsp; &nbsp; &nbsp; &nbsp;使用机器学习的方法可以得到好得多的结果。这个方法中，一个由<img src="http://latex.codecogs.com/svg.latex?  N">个数字<img src="http://latex.codecogs.com/svg.latex? \{x_1,...,x_N\}">组成的大的集合被叫做训练集（training set），用来调节模型的参数。训练集中数字的类别实现已知，通常是被独立考察、人工标注的。我们可以使用目标向量（target vector）<img src="http://latex.codecogs.com/svg.latex?  t">来表示数字的类别，它代表对应数字的标签。使用向量来表示类别的合适的技术将在后面讨论。注意对于每个数字图像<img src="http://latex.codecogs.com/svg.latex? \ x">只有一个目标向量<img src="http://latex.codecogs.com/svg.latex? t">。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;运用机器学习算法的结果可以被表示为一个函数<img src="http://latex.codecogs.com/svg.latex? y(x)">，它以一个新的数字的图像<img src="http://latex.codecogs.com/svg.latex? x">为输入，产生向量<img src="http://latex.codecogs.com/svg.latex? y">，与目标向量的形式相同。函数<img src="http://latex.codecogs.com/svg.latex? y(x)">的精确形式在训练（training）阶段被确定，这个阶段也被称为学习（learning）阶段，以训练数据为基础。一旦模型被训练出来，它就能确定新的数字的图像集合中图像的标签。这些新的数字的图像集合组成了测试集（test set）。正确分类与训练集不同的新样本的能力叫做泛化（generalization）。在实际应用中，输入向量的变化性是相当大的，以至于训练数据只所有可能的输入向量中相当小得一部分，所以泛化是模式识别的一个中心问题。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;对于大部分实际应用，原始输入向量通常被预处理（pre-processed），变换到新的变量空间。人们期望在新的变量空间中模式识别问题可以更容易地被解决。例如，在数字识别的问题中，数字的图像通常被转化缩放，使得每个数字能够被包含到一个固定大小的盒子中。这极大地减少了每个数字类别的变化性，因为现在所有数字的位置和大小现在相同，这使得后续的区分不同类别的模式识别算法变得更加容易。这个预处理阶段有时被叫做特征抽取（feature extraction）。注意新的测试集必须使用与训练集相同的方法进行预处理。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;训练数据的样本包含输入向量以及对应的目标向量的应用叫做有监督学习（supervised learning）问题。数字识别就是这个问题的一个例子，它的目标是给每个输入向量分配到有限数量离散标签中的一个，被称为分类（classification）问题。如果要求的输出由一个或者多个连续变量组成，那么这个任务被称为回归（regression）。回归问题的一个例子是化学药品制造过程中产量的预测。在这个问题中，输入由反应物、温度、压力组成。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;在其他的模式识别问题中，训练数据由一组输入向量<img src="http://latex.codecogs.com/svg.latex? x">组成，没有任何对应的目标值。在这样的无监督学习（unsupervised learning）问题中，目标可能是发现数据中相似样本的分组，这被称为聚类（clustering），或者决定输入空间中数据的分布，这被称为密度估计（density estimation），或者把数据从高维空间投影到二维或者三维空间，为了数据可视化（visualization）。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;最后，反馈学习（reinforcement learning）（Sutton and Barto, 1998）技术关注的问题是在给定的条件下，找到合适的动作，使得奖励达到最大值。这里，学习问题没有给定最优输出的用例。这些用例必须在一系列的实验和错误中被发现。这与有监督学习相反。通常，有一个状态和动作的序列，其中学习算法与环境交互。在许多情况下，当前动作不仅影响直接的奖励，也
+对所有后续时刻的奖励有影响。反馈学习的一个通用的特征是探索（exploration）和
+利用（exploitation）的折中。“探索”是指系统尝试新类型的动作，“利用”是指系统使用已知能产
+生较高奖励的动作。过分地集中于探索或者利用都会产生较差的结果。反馈学习继续是机器学习研究中得一个活跃的领域。然而，详细讨论反馈学习不在本书的范围内。</p>
+
+<h2 id="11">1.1 例子：多项式曲线拟合</h2>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;现在假设给定一个训练集。这个训练集由<img src="http://latex.codecogs.com/svg.latex? x">的<img src="http://latex.codecogs.com/svg.latex? N">次观测组成，写作<img src="http://latex.codecogs.com/svg.latex? x\equiv (x_1,...,x_N)^T"> ，伴随这对应的<img src="http://latex.codecogs.com/svg.latex? t">的观测值，记作<img src="http://latex.codecogs.com/svg.latex? t\equiv (t_1,...,t_N)^T"> 。输入数据集合<img src="http://latex.codecogs.com/svg.latex?  x">通过选择<img src="http://latex.codecogs.com/svg.latex?  x_n(n=1,...,N)">的值来生成。这些<img src="http://latex.codecogs.com/svg.latex? x_n">均匀分布在区间<img src="http://latex.codecogs.com/svg.latex?  [0,1]">，目标数据集<img src="http://latex.codecogs.com/svg.latex?  t">的获得方式是：首先计算函数<img src="http://latex.codecogs.com/svg.latex?  sin(2x)">的对应的值，然后给每个点增加一个小的符合高斯分布的随机噪声（高斯分布将在1.2.4节讨论），从而得到对应的<img src="http://latex.codecogs.com/svg.latex?   t_N">的值。通过使用这种方式产生数据，我们利用了许多真实数据集合的一个性质，即它们拥有一个内在的规律，这个规律是我们想要学习的，但是独自的观察被随机噪声干扰。这种噪声可能由一个本质上随机的过程产生，例如放射性衰变。但是更典型的情况是由于存在没有被观察到的具有变化性的噪声源。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;我们的目标是利用这个训练集预测对于输入变量的新值<img src="http://latex.codecogs.com/svg.latex?  \hat{x}">的目标变量的值<img src="http://latex.codecogs.com/svg.latex?  \hat{b}">。正如我们将要看到的那样，这涉及到隐式地发现内在的函数<img src="http://latex.codecogs.com/svg.latex?   sin(2x)">。这本质上是一个困难的问题，因为我们不得不从有限的数据中生成。并且观察到得数据被噪声干扰，因此对于一个给定的<img src="http://latex.codecogs.com/svg.latex?  \hat{x}">，合适的<img src="http://latex.codecogs.com/svg.latex?  \hat{b}">值具有不确定性。概率论（在1.2节讨论）提供了一个框架，用来以精确的数学的形式描述这种不确定性。决策论（在1.5节讨论）让我们能够根据合适的标准，利用这种概率的表示，进行最优的预测。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;但是现在，我们要用一种相当非正式的、相当简单的方式来进行曲线拟合。特别地，我们将使用下面形式的多项式函数来拟合数据：<br></p>
+
+<p style="text-align:center"><img src="http://latex.codecogs.com/svg.latex?  y(x,w)=w_0+w_1x+w_2x^2+...+w_Mx^M=\sum_{M-1}^Mw_jx^j">(1.1)</p>
+
+<p>其中<img src="http://latex.codecogs.com/svg.latex?  M">是多项式的阶数（order），<img src="http://latex.codecogs.com/svg.latex?  x_j">表示<img src="http://latex.codecogs.com/svg.latex?  x">的<img src="http://latex.codecogs.com/svg.latex?  j">次幂。多项式系数<img src="http://latex.codecogs.com/svg.latex?  w_0,...,w_M">整体记作向量<img src="http://latex.codecogs.com/svg.latex?  w}">。注意，虽然多项式函数<img src="http://latex.codecogs.com/svg.latex?  y(x,w)">是<img src="http://latex.codecogs.com/svg.latex?  x">的一个非线性函数，它是系数<img src="http://latex.codecogs.com/svg.latex?  w">的一个线性函数。类似多项式函数的这种关于未知参数满足线性关系的函数有着重要的性质，被叫做线性模型，将在第3章和第4章充分讨论。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;系数的值可以通过调整多项式函数拟合训练数据的方式确定。这可以通过最小化误差函数（error function）的方法实现。误差函数衡量了对于任意给定的w值，函数<img src="http://latex.codecogs.com/svg.latex?  y(x,w)">与训练集数据的差别。一个简单的应用广泛的误差函数是每个数据点<img src="http://latex.codecogs.com/svg.latex?  x_n">的预测值<img src="http://latex.codecogs.com/svg.latex?  y(x_n,w)">与目标值<img src="http://latex.codecogs.com/svg.latex? t_n">的平方和。所以我们最小化<br></p>
+
+<p style="text-align:center"><img src="http://latex.codecogs.com/svg.latex?  E(w)=\frac12\sum_{n=1}^N{\{y(x_n,w)-t_n\}}^2">(1.2)</p>
+
+<p>其中，因为<img src="http://latex.codecogs.com/svg.latex?  \frac12">是为了后续运算方便而加入的。我们将在后续章节中讨论选择这个误差函数的原
+因。现在，我们只是简单地注意一下它是每个非负的量，并且当且仅当函数<img src="http://latex.codecogs.com/svg.latex?  y(x,w)">对所有的训练数据点均做出正确预测时，误差函数为零。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;事实上，多项式函数精确地通过了每一个数据点，<img src="http://latex.codecogs.com/svg.latex?  E(w)=0">。然而，拟合的曲线剧烈震荡，就表达函数<img src="http://latex.codecogs.com/svg.latex?  \sin(2x)">而言表现很差。这种行为叫做过拟合（over-fitting）。正如我们之前提到的那样，目标是通过对新数据的预测实现良好的泛化性。我们可以定量考察模型的泛化性与<img src="http://latex.codecogs.com/svg.latex?  M">的关系。考察的方式为：考虑一个额外的测试集，这个测试集由100个数据点组成，这100个数据点的生成方式与训练集的生成方式完全相同，但是在目标值中包含的随机噪声的值不同。对于每个<img src="http://latex.codecogs.com/svg.latex?  M">的选择，我们之后可以用公式<img src="http://latex.codecogs.com/svg.latex?  （1.2）">计算训练集的<img src="http://latex.codecogs.com/svg.latex?  E(w)">，也可以计算测试集的<img src="http://latex.codecogs.com/svg.latex?  E(w)">。有时候使用根均方（RMS）误差更方便。这个误差由下式定义：<br></p>
+
+<p style="text-align:center"><img src="http://latex.codecogs.com/svg.latex?  E_{RMS}=\sqrt{2E(w^*)/N" }="">(1.3)</p>
+
+<p>其中，除以<img src="http://latex.codecogs.com/svg.latex?  N">让我们能够以相同的基础对比不同大小的数据集，平方根确保了<img src="http://latex.codecogs.com/svg.latex?  E_{RMS}">与目标变量<img src="http://latex.codecogs.com/svg.latex?  t">使用相同的规模和单位进行度量。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;考察给定模型的行为随着数据集规模的变化情况也很有趣，
+对一个给定的模型复杂度，当数据集的规模增加时，过拟合问题变得不那么严重。另一种表
+述方式是，数据集规模越大，我们能够用来拟合数据的模型就越复杂（即越灵活）。一个粗略的启发是，数据点的数量不应该小于模型的可调节参数的数量的若干倍（比如5或10）。然而，正如我们将在第3章看到的那样，参数的数量对于模型复杂度的⼤部分合理的度量来说都不是必要的。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;并且，令人无法满意的一点是，不得不根据可得到的训练集的规模限制参数的数量。似乎更加合理的是，根据待解决的问题的复杂性来选择模型的复杂性。我们将会看到，寻找模型参数的最小平方方法代表了最大似然（maximum likelihood）（将在1.2.5节讨论）的一种特殊情形，并且过拟合问题可以被理解为最大似然的一个通用属性。通过使用一种贝叶斯（Bayesian）方法，过拟合问题可以被避免。我们将会看到，从贝叶斯的观点来看，对于模型参数的数量超过
+数据点数量的情形，没有任何难解之处。实际上，一个贝叶斯模型中，参数的有效（effective）数量会⾃动根据数据集的规模调节。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;但是现在，继续使用当前的方法还是很有用的。并且考虑在实际中我们可以如何应用有限规模的数据集也是很有意义的。在这种情况下，我们可能期望建立相对复杂和灵活的模型。经常用来控制过拟合现象的⼀种技术是正则化（regularization）。这种技术涉及到给误差函数（1.2）增加一个惩罚项，使得系数不会达到很大的值。这种惩罚项最简单的形式采用所有系数的平方和的形式。这推导出了误差函数的修改后的形式：<br></p>
+
+<p style="text-align:center"><img src="http://latex.codecogs.com/svg.latex?  \breve{E}=\frac12\sum_{n=1}^N{\{y(x_n,w)-t_n\}}^2+\frac{\lambda}{2}\left|\left|w\right|\right|^2" }="">(1.4)</p>
+
+<p>其中<img src="http://latex.codecogs.com/svg.latex?  \left|\left|w\right|\right|^2\equiv w^Tw=w_0^2+w_1^2+...+w_M^2" }="">
+，系数<img src="http://latex.codecogs.com/svg.latex?  \lambda" }="">控制了正则化项相对于平方和误差项的重要性。注意，通常系数<img src="http://latex.codecogs.com/svg.latex?  w_0" }="">从正则化项中省略，因为包含<img src="http://latex.codecogs.com/svg.latex?  w_0" }="">会使得结果依赖于目标变量原点的选择
+（Hastie et al., 2001）。<img src="http://latex.codecogs.com/svg.latex?  w_0" }="">也可以被包含在正则化项中，但是必须有自己的正则化系数（我们将在5.5.1节详细讨论这个问题）。公式（1.4）中的误差函数也可以用解析的形式求出最小值。像这样的技术在统计学的文献中被叫做收缩（shrinkage）方法，因为这种方法减小了系数的值。二次正则项的⼀个特殊情况被称为脊回归（ridge regression）（Hoerl and Kennard, 1970）。在神经网络的情形中，这种方法被叫做权值衰减（weight decay）。</p>
+
+<h2 id="12">1.2 概率论</h2>
+
+<p>&nbsp; &nbsp; &nbsp; &nbsp;我们可以用下面的形式表示概率论的两条基本规则：<br></p>
+
+<p style="text-align:center">sum rule:<img src="http://latex.codecogs.com/svg.latex?  p(X)=\sum_Yp(X,Y)">(1.10)</p>
+
+<p style="text-align:center">product rule:<img src="http://latex.codecogs.com/svg.latex?  p(X)=p(Y|X)p(X)">(1.11)</p>
+
+<p>这里<img src="http://latex.codecogs.com/svg.latex?  p(Y|X)">是联合概率，可以表述为“<img src="http://latex.codecogs.com/svg.latex?  X">且<img src="http://latex.codecogs.com/svg.latex?  Y">的概率”。类似地，<img src="http://latex.codecogs.com/svg.latex?  p(Y|X)">是条件概率，可以表述为“给定<img src="http://latex.codecogs.com/svg.latex?  X">的条件下<img src="http://latex.codecogs.com/svg.latex?  Y">的概率”，<img src="http://latex.codecogs.com/svg.latex?  p(X)">是边缘概率，可以简单地表述为“<img src="http://latex.codecogs.com/svg.latex?  X">的概率”。这两个简单的规则组成了我们在全书中使⽤的全部概率推导的基础。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;根据乘积规则，以及对称性<img src="http://latex.codecogs.com/svg.latex?  p(X,Y)=p(Y,X)">，我们立即得到了下面的两个条件概率之间的关系：<br></p>
+
+<p style="text-align:center"><img src="http://latex.codecogs.com/svg.latex?  p(Y|X)=\frac{p(X|Y)p(Y)}{p(X)}">(1.12)</p>
+
+<p>这被称为<code>贝叶斯定理（Bayes' theorem）</code>，在模式识别和机器学习领域扮演者中心角色。使用加和规则，贝叶斯定理中的分母可以用出现在分子中的项表示：<br></p>
+
+<p style="text-align:center"><img src="http://latex.codecogs.com/svg.latex?  p(X)=\sum_Yp(X|Y)p(Y)">(1.12)</p>
+
+<p>我们可以把贝叶斯定理的分母看做归一化常数，用来确保公式（1.12）左侧的条件概率对于所有的<img src="http://latex.codecogs.com/svg.latex?  Y">的取值之和为1。<br>
+&nbsp; &nbsp; &nbsp; &nbsp;我们把能够之前得到的最多的信息的概率<img src="http://latex.codecogs.com/svg.latex?  p(Y)">叫做先验概率（prior probability）,我们就能够使用贝叶斯定理来计算概率<img src="http://latex.codecogs.com/svg.latex?  p(Y|X)">。这个被称为后验概率（posterior probability），因为它是我们观察到<img src="http://latex.codecogs.com/svg.latex?  X">之后的概率。最后，如果两个变量的联合分布可以分解成两个边缘分布的乘积，即<img src="http://latex.codecogs.com/svg.latex?  p(X,Y)=p(X)p(Y)">，那么我们说<img src="http://latex.codecogs.com/svg.latex?  X">和<img src="http://latex.codecogs.com/svg.latex?  Y"> 相互独立（independent）。根据乘积规则，我们可以得到<img src="http://latex.codecogs.com/svg.latex?  p(Y|X)=p(X)">，因此对于给定<img src="http://latex.codecogs.com/svg.latex?  X">的条件下的<img src="http://latex.codecogs.com/svg.latex?  Y">的条件分布实际上独立于<img src="http://latex.codecogs.com/svg.latex?  X">的值。</p>
+
+<h3 id="121">1.2.1概率密度</h3>
 <!-- content end -->
 </div>
 <br>
