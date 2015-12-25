@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="Keywords" content="blog"/>
+    <meta name="Description" content="blog"/>
+    <title>Simple</title>
+    <link rel="shortcut icon" href="/static/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/main.css" />
+</head>
+<body>
+<div class="main">
+    <div class="header">
+    	<ul id="pages">
+            <li><a href="/">home</a></li>
+            <li><a href="/#/tags">tags</a></li>
+            <li><a href="/#/archive">archive</a></li>
+    	</ul>
+    </div>
+	<div class="wrap-header">
+	<h1>
+    <a href="/" id="title"></a>
+	</h1>
+	</div>
+<div id="md" style="display: none;">
+<!-- markdown -->
+极大似然估计和贝叶斯估计分别代表了频率派和贝叶斯派的观点。频率派认为，参数是客观存在的，只是未知而矣。因此，频率派最关心极大似然函数，只要参数求出来了，给定自变量<img src="http://latex.codecogs.com/svg.latex?  X">，<img src="http://latex.codecogs.com/svg.latex?  Y">也就固定了，极大似然估计如下所示:<br>
+<img src="http://latex.codecogs.com/svg.latex? \ \theta_{MLE}=argmax_\theta p(D|\theta)"><br>
+D表示训练数据集，是模型参数<br>
+相反的，贝叶斯派认为参数也是随机的，和一般随机变量没有本质区别，正是因为参数不能固定，当给定一个输入x后，我们不能用一个确定的y表示输出结果，必须用一个概率的方式表达出来，所以贝叶斯学派的预测值是一个期望值，如下所示：<br>
+<img src="http://latex.codecogs.com/svg.latex? E[y|x,D]=\int p(y|x,D)p(\theta|D)d\theta"><br>
+其中<img src="http://latex.codecogs.com/svg.latex?  x">表示输入，<img src="http://latex.codecogs.com/svg.latex?  y">表示输出，<img src="http://latex.codecogs.com/svg.latex?  D">表示训练数据集，<img src="http://latex.codecogs.com/svg.latex? \theta">是模型参数<br>
+  该公式称为全贝叶斯预测。现在的问题是如何求<img src="http://latex.codecogs.com/svg.latex?  p(\theta|D)">（后验概率），根据贝叶斯公式我们有：<br>
+<img src="http://latex.codecogs.com/svg.latex?  p(\theta|D)=\frac{p(D|\theta)p(\theta)}{p(D)}=\frac{p(D|\theta)p(\theta)}{\int p(D|\theta)p(\theta) d\theta}"><br>
+  可惜的是，上面的后验概率通常是很难计算的，因为要对所有的参数进行积分，不能找到一个典型的闭合解（解析解）。在这种情况下，我们采用了一种近似的方法求后验概率，这就是最大后验概率。<br>
+<img src="http://latex.codecogs.com/svg.latex? \ \theta_{MAP}=argmax_\theta p(D|\theta)p(\theta)"><br>
+  最大后验概率和极大似然估计很像，只是多了一项先验分布，它体现了贝叶斯认为参数也是随机变量的观点，在实际运算中通常通过超参数给出先验分布。<br>
+  从以上可以看出，一方面，极大似然估计和最大后验概率都是参数的点估计。在频率学派中，参数固定了，预测值也就固定了。最大后验概率是贝叶斯学派的一种近似手段，因为完全贝叶斯估计不一定可行。另一方面，最大后验概率可以看作是对先验和MLE的一种折衷，如果数据量足够大，最大后验概率和最大似然估计趋向于一致，如果数据为0,最大后验仅由先验决定。
+
+<!-- markdown end -->
+</div>
+<div class="entry" id="main">
+<!-- content -->
+<p>极大似然估计和贝叶斯估计分别代表了频率派和贝叶斯派的观点。频率派认为，参数是客观存在的，只是未知而矣。因此，频率派最关心极大似然函数，只要参数求出来了，给定自变量<img src="http://latex.codecogs.com/svg.latex?  X">，<img src="http://latex.codecogs.com/svg.latex?  Y">也就固定了，极大似然估计如下所示:<br>
+<img src="http://latex.codecogs.com/svg.latex? \ \theta_{MLE}=argmax_\theta p(D|\theta)"><br>
+D表示训练数据集，是模型参数<br>
+相反的，贝叶斯派认为参数也是随机的，和一般随机变量没有本质区别，正是因为参数不能固定，当给定一个输入x后，我们不能用一个确定的y表示输出结果，必须用一个概率的方式表达出来，所以贝叶斯学派的预测值是一个期望值，如下所示：<br>
+<img src="http://latex.codecogs.com/svg.latex? E[y|x,D]=\int p(y|x,D)p(\theta|D)d\theta"><br>
+其中<img src="http://latex.codecogs.com/svg.latex?  x">表示输入，<img src="http://latex.codecogs.com/svg.latex?  y">表示输出，<img src="http://latex.codecogs.com/svg.latex?  D">表示训练数据集，<img src="http://latex.codecogs.com/svg.latex? \theta">是模型参数<br>
+  该公式称为全贝叶斯预测。现在的问题是如何求<img src="http://latex.codecogs.com/svg.latex?  p(\theta|D)">（后验概率），根据贝叶斯公式我们有：<br>
+<img src="http://latex.codecogs.com/svg.latex?  p(\theta|D)=\frac{p(D|\theta)p(\theta)}{p(D)}=\frac{p(D|\theta)p(\theta)}{\int p(D|\theta)p(\theta) d\theta}"><br>
+  可惜的是，上面的后验概率通常是很难计算的，因为要对所有的参数进行积分，不能找到一个典型的闭合解（解析解）。在这种情况下，我们采用了一种近似的方法求后验概率，这就是最大后验概率。<br>
+<img src="http://latex.codecogs.com/svg.latex? \ \theta_{MAP}=argmax_\theta p(D|\theta)p(\theta)"><br>
+  最大后验概率和极大似然估计很像，只是多了一项先验分布，它体现了贝叶斯认为参数也是随机变量的观点，在实际运算中通常通过超参数给出先验分布。<br>
+  从以上可以看出，一方面，极大似然估计和最大后验概率都是参数的点估计。在频率学派中，参数固定了，预测值也就固定了。最大后验概率是贝叶斯学派的一种近似手段，因为完全贝叶斯估计不一定可行。另一方面，最大后验概率可以看作是对先验和MLE的一种折衷，如果数据量足够大，最大后验概率和最大似然估计趋向于一致，如果数据为0,最大后验仅由先验决定。</p>
+<!-- content end -->
+</div>
+<br>
+<br>
+    <div id="disqus_thread"></div>
+	<div class="footer">
+		<p>© Copyright 2014 by isnowfy, Designed by isnowfy</p>
+	</div>
+</div>
+<script src="main.js"></script>
+<script id="content" type="text/mustache">
+    <h1>{{title}}</h1>
+    <div class="tag">
+    {{date}}
+    {{#tags}}
+    <a href="/#/tag/{{name}}">#{{name}}</a>
+    {{/tags}}
+    </div>
+</script>
+<script id="pagesTemplate" type="text/mustache">
+    {{#pages}}
+    <li>
+        <a href="{{path}}">{{title}}</a>
+    </li>
+    {{/pages}}
+</script>
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "main.json",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            $("#title").html(data.name);
+            var pagesTemplate = Hogan.compile($("#pagesTemplate").html());
+            var pagesHtml = pagesTemplate.render({"pages": data.pages});
+            $("#pages").append(pagesHtml);
+            //path
+            var path = "20151215.html";
+            //path end
+            var now = 0;
+            for (var i = 0; i < data.posts.length; ++i)
+                if (path == data.posts[i].path)
+                    now = i;
+            var post = data.posts[now];
+            var tmp = post.tags.split(" ");
+            var tags = [];
+            for (var i = 0; i < tmp.length; ++i)
+                if (tmp[i].length > 0)
+                    tags.push({"name": tmp[i]});
+            var contentTemplate = Hogan.compile($("#content").html());
+            var contentHtml = contentTemplate.render({"title": post.title, "tags": tags, "date": post.date});
+            $("#main").prepend(contentHtml);
+            if (data.disqus_shortname.length > 0) {
+                var disqus_shortname = data.disqus_shortname;
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            }
+        }
+    });
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ["\\(", "\\)"]], processEscapes: true}});
+</script>
+</body>
+</html>
